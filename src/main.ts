@@ -1,49 +1,35 @@
-function isModuleAvailable(name: string){
-    if (_G.package.loaded[name]){
-        return true
-    }
+import { init } from './Utils/index'
+init()
 
-    for (const [_, loader] of ipairs(_G.package.loaders)){
-        if (typeof loader === 'string'){
-            return true
+import { MainLoop } from './Base'
+import { Rect } from './Graphics'
+import { Vec2 } from './Math'
+import { getCoresCount, Thread } from './Thread'
+
+let r: Rect
+let v = new Vec2(0.2, 0.2)
+
+MainLoop.actions.add('LOAD', () => {
+    r = new Rect()
+    r.size = new Vec2(100, 100)
+
+    print(getCoresCount())
+
+    let t = new Thread()
+    t.run(()=>{
+        print('Started')
+        while (true){
+            let a = 1 + 1
         }
+    })
+})
 
-        let init = loader(name)
-        if (typeof init === 'function'){
-            _G.package.preload[name] = init
-            return true
-        }
+MainLoop.actions.add('UPDATE', () => {
+    r.pos = r.pos.add(v)
+})
 
-        return false
-    }
-}
+MainLoop.actions.add('THREAD_ERR', () => {
+    const data = <[any, string]> MainLoop.thread_err;
 
-const origin_require = _G.require
-_G.require = (name: string) => {
-    let [success, module] = pcall(origin_require, name)
-    // print(name, success, module)
-    if (!success){
-        if (!(<string>module).startsWith('module')){
-            throw module
-        }
-
-        [success, module] = pcall(origin_require, name + '.index')
-        if (!success){
-            throw module
-        }
-    }
-
-    return module
-
-    // let is_available = isModuleAvailable(name)
-    // if (!is_available){
-    //     is_available = isModuleAvailable(name + '.index')
-    //     if (is_available){
-    //         return origin_require(name + '.index')
-    //     }
-    // }
-    // return origin_require(name)
-}
-
-let MainLoop = require('MainLoop')
-MainLoop.init()
+    print(data[1])
+})

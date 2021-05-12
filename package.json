@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "love-typescript-definitions": "^0.22.1",
-    "lua-types": "^2.10.1",
+    "lua-types": "^2.10.1"
+  },
+  "devDependencies": {
     "typescript-to-lua": "^0.39.3"
   }
 }

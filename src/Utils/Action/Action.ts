@@ -1,5 +1,3 @@
-// import { log } from '../Log'
-
 export class Action<Args extends any[] = [], Out = void> {
 
     constructor(callback: (this: void, ...args: Args) => Out,
@@ -18,7 +16,8 @@ export class Action<Args extends any[] = [], Out = void> {
             Action.__inside_xpcall = true
             let success
             [success, res] = xpcall(this.__callback, (err) => {
-                // log(this.toString() + ' ' + err, 'Err')
+                print('{ERROR} ' + os.date("%m/%d/%Y %I:%M %p") + '\n\t'
+                        + this.toString() + ': ' + err)
             }, ...args)
 
             Action.__inside_xpcall = false

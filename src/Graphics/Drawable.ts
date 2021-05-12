@@ -1,3 +1,5 @@
+import { MainLoop } from '../Base'
+
 import { Vec2 } from '../Math'
 import { Layer } from './Layer'
 
@@ -15,7 +17,7 @@ export abstract class Drawable {
         this.__children = []
     }
 
-    static draw(){
+    static drawAll(this: void){
         for (const [level, layer] of Drawable.__layers){
             layer.draw()
         }
@@ -107,3 +109,5 @@ export abstract class Drawable {
         }
     }
 }
+
+MainLoop.actions.add('DRAW', Drawable.drawAll)

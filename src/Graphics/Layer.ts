@@ -1,4 +1,7 @@
+import { Thread } from 'love.thread'
 import type { Drawable } from './Drawable'
+
+const WORKERS = 4
 
 // TODO threading
 
@@ -30,4 +33,14 @@ export class Layer {
     }
 
     private __list: Drawable[]
+
+    // private static __workers: Thread[] = (() => {
+    //     let workers = []
+    //     for (let i = 0; i < WORKERS; i++){
+    //         workers.push(love.thread.newThread(
+    //             ''
+    //         ))
+    //     }
+    //     return workers
+    // })()
 }

@@ -6,7 +6,7 @@
       ],
       "moduleResolution": "node",
       "types": [
-          "lua-types/jit",
+          "lua-types/5.3",
           "typescript-to-lua",
           "love-typescript-definitions"
         ],
