@@ -1,44 +1,53 @@
-import { Thread } from "love.thread"
+import { Thread as LoveThread } from "love.thread"
+import { Action, ActionList } from "../Utils"
 import { EventActions } from "../Utils/Action/EventActions"
 
+type UpdateData = [dt: number]
+type ThreadErrorData = [th: LoveThread, err: string]
+type MousePressedData = [x: number, y: number, btn: number, is_touch: boolean]
+type MouseReleasedData = [x: number, y: number, btn: number, is_touch: boolean]
+type MouseMovedData = [x: number, y: number, dx: number, dy: number, is_touch: boolean]
+
+
 export class MainLoop {
+    static readonly load = new ActionList()
+    static readonly update = new ActionList<UpdateData>()
+    static readonly draw = new ActionList()
 
-    static readonly actions = new EventActions<MainLoop.Event>()
+    static readonly thread_error = new ActionList<ThreadErrorData>()
 
-    static readonly time: number = 0
-
-    static readonly update_dt: number | undefined
-    static readonly thread_err: [th: Thread, err: string] | undefined
-    static readonly mouse_pressed: [x: number, y: number, btn: number, is_touch: boolean] | undefined
-
+    static readonly mouse_pressed = new ActionList<MousePressedData>()
+    static readonly mouse_released = new ActionList<MouseReleasedData>()
+    static readonly mouse_moved = new ActionList<MouseMovedData>()
 }
 
 export namespace MainLoop {
-    export type Event = 'LOAD' | 'UPDATE' | 'DRAW' | 'THREAD_ERR'
 
     love.load = () => {
-        MainLoop.actions.run('LOAD')
+        MainLoop.load.run()
     }
 
     love.update = (dt) => {
-        (<number>MainLoop.time) += dt;
-
-        (<number>MainLoop.update_dt) = dt
-        MainLoop.actions.run('UPDATE');
-        (<undefined>MainLoop.update_dt) = undefined
+        MainLoop.update.run(dt)
     }
 
     love.draw = () => {
-        MainLoop.actions.run('DRAW')
+        MainLoop.draw.run()
     }
 
     love.threaderror = (th, err) => {
-        (<[Thread, string]>MainLoop.thread_err) = [th, err]
-        MainLoop.actions.run('THREAD_ERR');
-        (<undefined>MainLoop.thread_err) = undefined
+        MainLoop.thread_error.run(th, err)
     }
 
     love.mousepressed = (x, y, btn, is_touch) => {
+        MainLoop.mouse_pressed.run(x, y, btn, is_touch)
+    }
 
+    love.mousereleased = (x, y, btn, is_touch) => {
+        MainLoop.mouse_released.run(x, y, btn, is_touch)
+    }
+
+    love.mousemoved = (x, y, dx, dy, is_touch) => {
+        MainLoop.mouse_moved.run(x, y, dx, dy, is_touch)
     }
 }
