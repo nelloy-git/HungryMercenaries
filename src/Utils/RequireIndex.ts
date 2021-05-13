@@ -4,7 +4,7 @@ export function requireIndex(name: string){
     if (!success){
         let err = <string>module
 
-        if (!err.startsWith('module')){
+        if (!err.startsWith('module \'' + name + '\' not found:')){
             throw err
         }
 

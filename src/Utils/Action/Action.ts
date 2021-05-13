@@ -15,11 +15,15 @@ export class Action<Args extends any[] = [], Out = void> {
         if (!Action.__inside_xpcall) {
             Action.__inside_xpcall = true
             let success
-            [success, res] = xpcall(this.__callback, (err) => {
+            [success, res] = xpcall(() => {this.__callback(...args)}, (err) => {
                 print('{ERROR} ' + os.date("%m/%d/%Y %I:%M %p") + '\n\t'
                         + this.toString() + ': ' + err + '\n' +
                         debug.traceback())
-            }, ...args)
+            })
+
+            if (!success){
+                this.__callback = () => {return <Out><unknown>undefined}
+            }
 
             Action.__inside_xpcall = false
         } else {

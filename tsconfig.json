@@ -6,7 +6,7 @@
       ],
       "moduleResolution": "node",
       "types": [
-          "lua-types/5.3",
+          "lua-types/5.1",
           "typescript-to-lua",
           "love-typescript-definitions"
         ],
@@ -22,7 +22,7 @@
     "exclude": [],
 
     "tstl": {
-      "luaTarget": "5.3",
+      "luaTarget": "5.1",
       "noImplicitSelf": true,
       "sourceMapTraceback": true,
     },

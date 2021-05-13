@@ -14,7 +14,7 @@ export function getCoresCount(){
     } else {
         // TODO
         // return tonumber(os.getenv("NUMBER_OF_PROCESSORS"))
-        return 1
+        return 4
     }
 
 }
@@ -25,7 +25,7 @@ function getCoreCountLinux(){
         throw 'Can not get CPU cores count: ' + err
     }
 
-    let s_count = res.read('n')
+    let s_count = res.read('*n')
     if (!s_count){
         throw 'Can not read CPU cores count'
     }

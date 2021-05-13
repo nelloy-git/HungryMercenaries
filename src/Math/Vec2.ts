@@ -41,6 +41,10 @@ export class Vec2 {
         return new Vec2(this.__x, this.__y)
     }
 
+    unpack(){
+        return $multi(this.__x, this.__y)
+    }
+
     add(other: Vec2){
         return new Vec2(this.__x + other.__x, this.__y + other.__y)
     }

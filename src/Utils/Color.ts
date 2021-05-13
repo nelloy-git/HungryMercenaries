@@ -10,20 +10,18 @@ export class Color {
         return new Color(this.__r, this.__g, this.__b, this.__a)
     }
 
+    unpack(){
+        return $multi(this.__r / 255,
+                      this.__g / 255,
+                      this.__b / 255,
+                      this.__a / 255)
+    }
+
     compare(other: Color){
         return (this.__r == other.__r) &&
                (this.__g == other.__g) &&
                (this.__b == other.__b) &&
                (this.__a == other.__a)
-    }
-
-    // ARGB
-    colorText(text: string){
-        return '|c' + this.hex(this.__a)
-                    + this.hex(this.__r)
-                    + this.hex(this.__g)
-                    + this.hex(this.__b)
-                    + text + '|r'
     }
 
     // RGBA
