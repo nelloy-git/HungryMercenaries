@@ -1,34 +1,44 @@
-import * as LWin from 'love.window'
+import * as LoveWindow from 'love.window'
 import { Vec2 } from '../Math'
 
 export class Window {
 
-    static get inst(){
-        return Window.__inst
-    }
-
-    get pos(){
-        let [x, y, display] = LWin.getPosition()
+    static get pos(){
+        let [x, y, display] = LoveWindow.getPosition()
         return new Vec2(x, y)
     }
 
-    set pos(v: Vec2){
-        let [x, y, display] = LWin.getPosition()
-        LWin.setPosition(v.x, v.y, display)
+    static set pos(v: Vec2){
+        let [x, y, display] = LoveWindow.getPosition()
+        LoveWindow.setPosition(v.x, v.y, display)
     }
 
-    get fullscreen(){
-        let [full, mode] = LWin.getFullscreen()
+    static get fullscreen(){
+        let [full, mode] = LoveWindow.getFullscreen()
         return full
     }
 
-    set fullscreen(flag: boolean){
-        let [full, mode] = LWin.getFullscreen()
-        LWin.setFullscreen(flag, mode)
+    static set fullscreen(flag: boolean){
+        let [full, mode] = LoveWindow.getFullscreen()
+        LoveWindow.setFullscreen(flag, mode)
+    }
+
+    static get vsync(): Window.VSync {
+        return LoveWindow.getVSync()
+    }
+
+    static set vsync(vsync: Window.VSync){
+        LoveWindow.setVSync(vsync)
     }
 
     private constructor(){
     }
+}
 
-    private static __inst: Window = new Window()
+export namespace Window {
+    export enum VSync {
+        ENABLED = -1,
+        DISABLED = 0,
+        ADAPTIVE = 1,
+    }
 }

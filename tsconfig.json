@@ -24,6 +24,6 @@
     "tstl": {
       "luaTarget": "5.3",
       "noImplicitSelf": true,
-      "sourceMapTraceback": true
+      "sourceMapTraceback": true,
     },
 }

@@ -110,4 +110,4 @@ export abstract class Drawable {
     }
 }
 
-MainLoop.actions.add('DRAW', Drawable.drawAll)
+MainLoop.draw.add(Drawable.drawAll)

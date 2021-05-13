@@ -1,4 +1,12 @@
+import { Type } from 'love'
+
 const LINUX = string.sub(_G.package.config, 1, 1) == '/'
+
+type AvailableTable = {
+    [key: number]: ThreadData
+}
+export type ThreadData = undefined | void | boolean | number | string | Type | AvailableTable
+
 
 export function getCoresCount(){
     if (LINUX){

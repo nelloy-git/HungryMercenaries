@@ -1,14 +1,14 @@
 import { Action } from './Action'
 
 export class ActionList<Args extends any[] = []> {
-    constructor(err_header?: string){
-        this.err_header = err_header
+    constructor(header?: string){
+        this.header = header
         this.__actions = []
         this.__linked = new Map()
     }
 
     toString(){
-        return this.err_header + '.' + this.constructor.name
+        return this.header + '.' + this.constructor.name
     }
 
     get length(){
@@ -30,7 +30,7 @@ export class ActionList<Args extends any[] = []> {
     add(action_or_callback: Action<Args> | ((this: void, ...args: Args) => void)){
         let action: Action<Args>
         if (typeof action_or_callback === 'function'){
-            action = new Action<Args>(action_or_callback, this.err_header)
+            action = new Action<Args>(action_or_callback, this.header)
         } else {
             action = action_or_callback
         }
@@ -67,7 +67,7 @@ export class ActionList<Args extends any[] = []> {
         return true
     }
 
-    readonly err_header: string | undefined
+    readonly header: string | undefined
     
     private __actions: Action<Args>[]
     private __linked: Map<ActionList<any>, Action<any, void>>

@@ -1,24 +1,49 @@
 import { init } from './Utils/index'
 init()
 
+import { Canvas} from 'love.graphics'
 import { MainLoop } from './Base'
-import { Rect } from './Graphics'
 import { Vec2 } from './Math'
 
-let r: Rect
-let v = new Vec2(10, 10)
+import { Screen, Data } from './Graphics/index'
+// import { Data } from './Graphics/Layer/ThreadedDraw'
+
+Screen.init()
+
+let test: Canvas[] = []
 
 MainLoop.load.add(() => {
-    r = new Rect()
-    r.size = new Vec2(100, 100)
+    for (let i = 0; i < 100; i++){
+        let img = love.graphics.newCanvas(100, 100)
+        test.push(img)
+
+        love.graphics.setCanvas(img)
+        let c = 0.01 * (100 - i)
+        love.graphics.setColor(c, c, c)
+        love.graphics.rectangle('fill', 0, 0, 100, 100)
+    }
+	love.graphics.setCanvas()
+
+    print('Loaded')
+
+    for (let i = 0; i < test.length; i++){
+        let canv = test[i]
+
+        let data: Data = {
+            obj: canv,
+            x: i * 10,
+            y: i * 10,
+        }
+
+        Screen.add(Math.floor(i / 10), data)
+    }
+
+    print('Loaded')
 })
 
 MainLoop.update.add((dt) => {
-    r.pos = r.pos.add(v.mult(dt))
 })
 
-MainLoop.actions.add('THREAD_ERR', () => {
-    const data = <[any, string]> MainLoop.thread_error;
-
-    print(data[1])
+MainLoop.thread_error.add((th, err) => {
+    print(err)
 })

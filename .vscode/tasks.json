@@ -13,6 +13,12 @@
             "label": "run",
             "type": "shell",
             "command": "love ./build"
+        },
+        
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "node ./node_modules/typescript-to-lua/dist/tstl.js && love ./build"
         }
     ]
 }

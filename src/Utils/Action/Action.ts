@@ -17,7 +17,8 @@ export class Action<Args extends any[] = [], Out = void> {
             let success
             [success, res] = xpcall(this.__callback, (err) => {
                 print('{ERROR} ' + os.date("%m/%d/%Y %I:%M %p") + '\n\t'
-                        + this.toString() + ': ' + err)
+                        + this.toString() + ': ' + err + '\n' +
+                        debug.traceback())
             }, ...args)
 
             Action.__inside_xpcall = false
