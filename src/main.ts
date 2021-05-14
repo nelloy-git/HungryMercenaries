@@ -4,6 +4,7 @@ init()
 import { MainLoop } from './Base'
 import { Vec2 } from './Math'
 
+import { FileData, ImageData } from './Data'
 import { Image, Text, Window } from './Graphics'
 
 let fps: Text
@@ -11,14 +12,16 @@ let test: Image[] = []
 
 MainLoop.load.add(() => {
     Window.vsync = Window.VSync.DISABLED
+    fps = new Text()
+    fps.level = 10000
 
-    fps = new Text('Raleway-Regular.ttf')
-    for (let i = 0; i < 100; i++){
-        let im = new Image('test.jpg')
+    for (let i = 0; i < 10000; i++){
+        let data = new ImageData(new FileData('test.jpg'))
+        let im = new Image(data)
         test.push(im)
 
-        im.pos = new Vec2(100 + 10 * i, 100 + 10 * i)
-        im.shear = new Vec2(1, 0)
+        im.pos = new Vec2(100 + 1 * i, 100 + 1 * i)
+        im.shear = new Vec2(0, 0)
     }
 })
 

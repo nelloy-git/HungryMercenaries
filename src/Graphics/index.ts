@@ -1,5 +1,5 @@
 export * from './Widget'
-export * from './Image'
-export * from './Text'
+export * from './Widget/Image'
+export * from './Widget/Text'
 
 export * from './Window'

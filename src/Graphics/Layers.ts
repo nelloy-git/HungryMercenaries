@@ -34,7 +34,7 @@ export class Layers {
         if (!layer){
             layer = []
             Layers.__list.set(level, layer)
-            Layers.__list = new Map([...Layers.__list.entries()].sort())
+            Layers.__list = new Map([...Layers.__list.entries()].sort((a, b) => {return a[0] - b[0]}))
         }
         return layer
     }
