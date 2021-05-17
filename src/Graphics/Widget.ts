@@ -10,14 +10,6 @@ export abstract class Widget extends Object {
         super()
 
         this.pos = new Vec2(0, 0)
-        this.angle = 0
-        this.size = new Vec2(1, 1)
-        this.visible = true
-        this.color = new Color()
-        this.blend = 'alpha'
-        this.shader = undefined
-        this.origin = new Vec2(0, 0)
-        this.shear = new Vec2(0, 0)
 
         this.__level = 0
         this.__parent = undefined
@@ -29,6 +21,8 @@ export abstract class Widget extends Object {
     destroy(){
         Layers.remove(this)
     }
+
+    abstract draw(): void
 
     get abs_pos(){
         let parent_pos = this.__parent ? this.__parent.pos : new Vec2(0, 0)
@@ -55,16 +49,7 @@ export abstract class Widget extends Object {
     }
     get children(){return this.__children as ReadonlyArray<Widget>}
 
-    abstract drawable: Drawable
     pos: Vec2
-    angle: number
-    size: Vec2
-    visible: boolean
-    color: Color
-    blend: BlendMode
-    shader: Shader | undefined
-    origin: Vec2
-    shear: Vec2
 
     private __level: number
     private __parent: Widget | undefined

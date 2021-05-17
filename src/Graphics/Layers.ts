@@ -2,6 +2,7 @@ import type { Shader } from 'love.graphics'
 import { MainLoop } from '../Base'
 
 import type { Widget } from './Widget'
+import { Window } from './Window'
 
 const graphics = love.graphics
 
@@ -22,9 +23,17 @@ export class Layers {
     }
 
     static draw(this: void, ){
+        let win = Window.size
+
         for (const [level, layer] of Layers.__list){
             for (let i = 0; i < layer.length; i++){
-                Layers.__drawWidget(layer[i])
+                let cur = layer[i]
+                const p1 = cur.abs_pos
+                const p2 = p1.add(cur.size)
+
+                if (p1.x < win.x && p1.y < win.y && p2.x > 0 && p2.y >0){
+                    layer[i].draw()
+                }
             }
         }
     }
@@ -39,21 +48,21 @@ export class Layers {
         return layer
     }
 
-    private static __drawWidget(this: void, widget: Widget){
-        if (widget.visible){
-            graphics.setColor(widget.color.unpack())
-            graphics.setBlendMode(widget.blend)
-            graphics.setShader(<Shader>widget.shader)
-            graphics.draw(
-                widget.drawable,
-                widget.abs_pos.x, widget.abs_pos.y,
-                widget.angle,
-                widget.size.x, widget.size.y,
-                widget.origin.x, widget.origin.y,
-                widget.shear.x, widget.shear.y
-            )
-        }
-    }
+    // private static __drawWidget(this: void, widget: Widget){
+    //     if (widget.visible){
+    //         graphics.setColor(widget.color.unpack())
+    //         graphics.setBlendMode(widget.blend)
+    //         graphics.setShader(<Shader>widget.shader)
+    //         graphics.draw(
+    //             widget.drawable,
+    //             widget.abs_pos.x, widget.abs_pos.y,
+    //             widget.angle,
+    //             widget.size.x, widget.size.y,
+    //             widget.origin.x, widget.origin.y,
+    //             widget.shear.x, widget.shear.y
+    //         )
+    //     }
+    // }
 
     private constructor(){}
     private static __list = new Map<number, Widget[]>([])

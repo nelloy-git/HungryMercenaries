@@ -13,6 +13,11 @@ export class Window {
         LoveWindow.setPosition(v.x, v.y, display)
     }
 
+    static get size(){
+        let [w, h] = LoveWindow.getDesktopDimensions()
+        return new Vec2(w, h)
+    }
+
     static get fullscreen(){
         let [full, mode] = LoveWindow.getFullscreen()
         return full

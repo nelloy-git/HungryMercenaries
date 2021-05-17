@@ -6,11 +6,15 @@ const newLoveFileData = love.filesystem.newFileData
 
 export class FileData extends Data {
     constructor(path: string)
+    constructor(data: LoveFileData)
     constructor(content: string, name: string)
-    constructor(path_or_content: string, name?: string){
+    constructor(path_or_content: string | LoveFileData, name?: string){
         super()
 
-        if (name){
+        if (typeof path_or_content !== 'string'){
+            this.path = ''
+            this.data = path_or_content
+        } else if (name){
             this.path = ''
             this.data = newLoveFileData(path_or_content, <string>name)
         } else {

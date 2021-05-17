@@ -15,7 +15,7 @@ MainLoop.load.add(() => {
     fps = new Text()
     fps.level = 10000
 
-    for (let i = 0; i < 10000; i++){
+    for (let i = 0; i < 100; i++){
         let data = new ImageData(new FileData('test.jpg'))
         let im = new Image(data)
         test.push(im)
@@ -26,7 +26,7 @@ MainLoop.load.add(() => {
 })
 
 MainLoop.update.add((dt) => {
-    fps.drawable.set(string.format('%.1f', 1 / dt))
+    fps.text = string.format('%.1f', 1 / dt)
 })
 
 MainLoop.thread_error.add((th, err) => {
