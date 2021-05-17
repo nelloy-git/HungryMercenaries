@@ -26,6 +26,7 @@ export class Image extends Texture {
     set data(data: ImageData | CompressedImageData){
         this.__data = data
         this._drawable.release()
+        
         this._drawable = newLoveImage(<any>data.data)
     }
 

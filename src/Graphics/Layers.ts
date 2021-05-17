@@ -27,13 +27,7 @@ export class Layers {
 
         for (const [level, layer] of Layers.__list){
             for (let i = 0; i < layer.length; i++){
-                let cur = layer[i]
-                const p1 = cur.abs_pos
-                const p2 = p1.add(cur.size)
-
-                if (p1.x < win.x && p1.y < win.y && p2.x > 0 && p2.y >0){
-                    layer[i].draw()
-                }
+                layer[i].draw()
             }
         }
     }

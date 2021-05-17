@@ -30,7 +30,7 @@ export class Text extends StdWidget {
     get text(){return this.__text}
     set text(str: string){
         this.__text = str
-        this._drawable.setf(this.__text, this.size.x, this.__align)
+        this._drawable.setf(this.__text, this.pixel_size.x, this.__align)
     }
 
     /**
@@ -52,7 +52,11 @@ export class Text extends StdWidget {
     get align(){return this.__align}
     set align(mode: AlignMode){
         this.__align = mode
-        this._drawable.setf(this.__text, this.size.x, this.__align)
+        this._drawable.setf(this.__text, this.pixel_size.x, this.__align)
+    }
+
+    get pixel_size(){
+        return this.draw_size.copy()
     }
 
     protected _drawable: LoveText

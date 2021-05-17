@@ -44,7 +44,7 @@ export abstract class Texture extends StdWidget {
      *
      * @link [Texture:getDimensions](https://love2d.org/wiki/Texture:getDimensions)
      */
-    get dimentions(){
+    get pixel_size(){
         let [w, h] = this._drawable.getDimensions()
         return new Vec2(w, h)
     }

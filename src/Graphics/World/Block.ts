@@ -1,6 +1,15 @@
+import { Vec2 } from '../../Math';
 import { Widget } from '../Widget';
 
+const DEFAULT_SIZE = new Vec2(100, 100)
+
 export class Block extends Widget {
+
+    constructor(pixel_size: Vec2 = DEFAULT_SIZE){
+        super()
+
+        this.draw_size = pixel_size.copy()
+    }
 
     draw(){
         if (this.drawBottom){this.drawBottom()}
@@ -19,4 +28,6 @@ export class Block extends Widget {
     drawFrontLeft: (() => void) | undefined
     drawFrontRight: (() => void) | undefined
     drawTop: (() => void) | undefined
+
+    draw_size: Vec2
 }

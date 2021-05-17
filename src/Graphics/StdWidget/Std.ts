@@ -11,8 +11,8 @@ export abstract class StdWidget extends Widget {
     constructor(){
         super()
 
+        this.draw_size = new Vec2(0, 0)
         this.angle = 0
-        this.size = new Vec2(1, 1)
         this.visible = true
         this.color = new Color()
         this.blend = 'alpha'
@@ -30,21 +30,23 @@ export abstract class StdWidget extends Widget {
                 this._drawable,
                 this.abs_pos.x, this.abs_pos.y,
                 this.angle,
-                this.size.x, this.size.y,
+                this.draw_size.x / this.pixel_size.x, this.draw_size.y / this.pixel_size.y,
                 this.origin.x, this.origin.y,
                 this.shear.x, this.shear.y
             )
         }
     }
 
+    draw_size: Vec2
     angle: number
-    size: Vec2
     visible: boolean
     color: Color
     blend: BlendMode
     shader: Shader | undefined
     origin: Vec2
     shear: Vec2
+
+    readonly abstract pixel_size: Vec2
     
     protected abstract _drawable: LoveDrawable
 }

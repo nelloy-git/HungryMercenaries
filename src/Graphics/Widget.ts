@@ -50,6 +50,7 @@ export abstract class Widget extends Object {
     get children(){return this.__children as ReadonlyArray<Widget>}
 
     pos: Vec2
+    abstract draw_size: Vec2
 
     private __level: number
     private __parent: Widget | undefined

@@ -5,7 +5,8 @@ import { MainLoop } from './Base'
 import { Vec2 } from './Math'
 
 import { FileData, ImageData } from './Data'
-import { Image, Text, Window } from './Graphics'
+import { Image, Text, Window, World } from './Graphics'
+import { Block } from './Graphics/World/Block'
 
 let fps: Text
 let test: Image[] = []
@@ -15,13 +16,9 @@ MainLoop.load.add(() => {
     fps = new Text()
     fps.level = 10000
 
-    for (let i = 0; i < 100; i++){
-        let data = new ImageData(new FileData('test.jpg'))
-        let im = new Image(data)
-        test.push(im)
-
-        im.pos = new Vec2(100 + 1 * i, 100 + 1 * i)
-        im.shear = new Vec2(0, 0)
+    let world = new World(new Vec2(150,150))
+    for (const block of world.sub){
+        // (<Block>block).drawFrontLeft = () => {love.graphics.d}
     }
 })
 
