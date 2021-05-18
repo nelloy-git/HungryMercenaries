@@ -12,13 +12,13 @@ export class Text extends StdWidget {
     constructor(){
         super()
 
-        this._drawable = newLoveText(DEFAULT)
+        this.drawable = newLoveText(DEFAULT)
         this.__text = ''
         this.__align = 'left'
     }
     
     destroy(){
-        this._drawable.release()
+        this.drawable.release()
         super.destroy()
     }
 
@@ -30,7 +30,7 @@ export class Text extends StdWidget {
     get text(){return this.__text}
     set text(str: string){
         this.__text = str
-        this._drawable.setf(this.__text, this.pixel_size.x, this.__align)
+        this.drawable.setf(this.__text, this.pixel_size.x, this.__align)
     }
 
     /**
@@ -41,7 +41,7 @@ export class Text extends StdWidget {
     get font(){return this.__font}
     set font(font: Font | undefined){
         let love_font = font ? font.font : DEFAULT
-        this._drawable.setFont(love_font)
+        this.drawable.setFont(love_font)
     }
 
     /**
@@ -52,14 +52,14 @@ export class Text extends StdWidget {
     get align(){return this.__align}
     set align(mode: AlignMode){
         this.__align = mode
-        this._drawable.setf(this.__text, this.pixel_size.x, this.__align)
+        this.drawable.setf(this.__text, this.pixel_size.x, this.__align)
     }
 
     get pixel_size(){
         return this.draw_size.copy()
     }
 
-    protected _drawable: LoveText
+    drawable: LoveText
 
     private __text: string
     private __font: Font | undefined

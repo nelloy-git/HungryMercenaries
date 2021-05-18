@@ -16,7 +16,7 @@ export abstract class Texture extends StdWidget {
      * 
      * @link [Texture:getDPIScale](https://love2d.org/wiki/Texture:getDPIScale)
      */
-    get dpi_scale(){return this._drawable.getDPIScale()}
+    get dpi_scale(){return this.drawable.getDPIScale()}
 
     /**
      * Depth of a Volume Texture. Returns 1 for 2D, Cubemap, and Array
@@ -24,7 +24,7 @@ export abstract class Texture extends StdWidget {
      *
      * @link [Texture:getDepth](https://love2d.org/wiki/Texture:getDepth)
      */
-    get depth(){return this._drawable.getDepth()}
+    get depth(){return this.drawable.getDepth()}
 
     /**
      * Comparison mode used when sampling from a depth texture in a shader.
@@ -32,11 +32,11 @@ export abstract class Texture extends StdWidget {
      * @link [Texture:getDepthSampleMode](https://love2d.org/wiki/Texture:getDepthSampleMode)
      */
     get depth_sample_mode(){
-        return this._drawable.getDepthSampleMode()
+        return this.drawable.getDepthSampleMode()
     }
 
     set depth_sample_mode(mode: CompareMode | undefined){
-        this._drawable.setDepthSampleMode(<CompareMode>mode)
+        this.drawable.setDepthSampleMode(<CompareMode>mode)
     }
 
     /**
@@ -45,7 +45,7 @@ export abstract class Texture extends StdWidget {
      * @link [Texture:getDimensions](https://love2d.org/wiki/Texture:getDimensions)
      */
     get pixel_size(){
-        let [w, h] = this._drawable.getDimensions()
+        let [w, h] = this.drawable.getDimensions()
         return new Vec2(w, h)
     }
 
@@ -55,13 +55,13 @@ export abstract class Texture extends StdWidget {
      * @link [Font:getFilter](https://love2d.org/wiki/Font:getFilter)
      */
     get filter_minify(){
-        let [min, mag] = this._drawable.getFilter()
+        let [min, mag] = this.drawable.getFilter()
         return min
     }
 
     set filter_minify(min: FilterMode){
         let mag = this.filter_magnify
-        this._drawable.setFilter(min, mag)
+        this.drawable.setFilter(min, mag)
     }
 
     /**
@@ -70,13 +70,13 @@ export abstract class Texture extends StdWidget {
      * @link [Font:getFilter](https://love2d.org/wiki/Font:getFilter)
      */
     get filter_magnify(){
-        let [min, mag] = this._drawable.getFilter()
+        let [min, mag] = this.drawable.getFilter()
         return mag
     }
 
     set filter_magnify(mag: FilterMode){
         let min = this.filter_minify
-        this._drawable.setFilter(min, mag)
+        this.drawable.setFilter(min, mag)
     }
 
     /**
@@ -84,7 +84,7 @@ export abstract class Texture extends StdWidget {
      *
      * @link [Texture:getFormat](https://love2d.org/wiki/Texture:getFormat)
      */
-    get pixel_format(){return this._drawable.getFormat()}
+    get pixel_format(){return this.drawable.getFormat()}
 
     /**
      * Number of layers / slices in an Array Texture. Returns 1 for 2D,
@@ -92,7 +92,7 @@ export abstract class Texture extends StdWidget {
      *
      * @link [Texture:getLayerCount](https://love2d.org/wiki/Texture:getLayerCount)
      */
-    get layer_count(){return this._drawable.getLayerCount()}
+    get layer_count(){return this.drawable.getLayerCount()}
 
     /**
      * Number of mipmaps contained in the Texture. If the texture was not
@@ -100,7 +100,7 @@ export abstract class Texture extends StdWidget {
      *
      * @link [Texture:getMipmapCount](https://love2d.org/wiki/Texture:getMipmapCount)
      */
-    get mipmap_count(){return this._drawable.getMipmapCount()}
+    get mipmap_count(){return this.drawable.getMipmapCount()}
 
     /**
      * Mipmap filter mode for a Texture. Prior to 11.0 this method only worked on Images.
@@ -108,13 +108,13 @@ export abstract class Texture extends StdWidget {
      * @link [Texture:getMipmapFilter](https://love2d.org/wiki/Texture:getMipmapFilter)
      */
     get mipmap_filter(){
-        let [filter, sharp] = this._drawable.getMipmapFilter()
+        let [filter, sharp] = this.drawable.getMipmapFilter()
         return filter
     }
 
     set mipmap_filter(filter: FilterMode){
         let sharp = this.mipmap_sharpness
-        this._drawable.setMipmapFilter(filter, sharp)
+        this.drawable.setMipmapFilter(filter, sharp)
     }
 
     /**
@@ -123,13 +123,13 @@ export abstract class Texture extends StdWidget {
      * @link [Texture:getMipmapFilter](https://love2d.org/wiki/Texture:getMipmapFilter)
      */
     get mipmap_sharpness(){
-        let [filter, sharp] = this._drawable.getMipmapFilter()
+        let [filter, sharp] = this.drawable.getMipmapFilter()
         return sharp
     }
 
     set mipmap_sharpness(sharp: number){
         let filter = this.mipmap_filter
-        this._drawable.setMipmapFilter(filter, sharp)
+        this.drawable.setMipmapFilter(filter, sharp)
     }
 
     /**
@@ -138,7 +138,7 @@ export abstract class Texture extends StdWidget {
      * @link [Texture:getTextureType](https://love2d.org/wiki/Texture:getTextureType)
      */
     get texture_type(){
-        return this._drawable.getTextureType()
+        return this.drawable.getTextureType()
     }
 
     /**
@@ -147,13 +147,13 @@ export abstract class Texture extends StdWidget {
      * @link [Texture:getWrap](https://love2d.org/wiki/Texture:getWrap)
      */
     get wrap_horiz(){
-        let [horiz, vert] = this._drawable.getWrap()
+        let [horiz, vert] = this.drawable.getWrap()
         return horiz
     }
 
     set wrap_horiz(horiz: WrapMode){
         let vert = this.wrap_vert
-        this._drawable.setWrap(horiz, vert)
+        this.drawable.setWrap(horiz, vert)
     }
 
     /**
@@ -162,13 +162,13 @@ export abstract class Texture extends StdWidget {
      * @link [Texture:getWrap](https://love2d.org/wiki/Texture:getWrap)
      */
     get wrap_vert(){
-        let [horiz, vert] = this._drawable.getWrap()
+        let [horiz, vert] = this.drawable.getWrap()
         return vert
     }
 
     set wrap_vert(vert: WrapMode){
         let horiz = this.wrap_horiz
-        this._drawable.setWrap(horiz, vert)
+        this.drawable.setWrap(horiz, vert)
     }
 
     /**
@@ -182,7 +182,7 @@ export abstract class Texture extends StdWidget {
      *
      * @link [Texture:isReadable](https://love2d.org/wiki/Texture:isReadable)
      */
-    get readable(){return this._drawable.isReadable()}
+    get readable(){return this.drawable.isReadable()}
 
-    protected abstract _drawable: LoveTexture
+    abstract drawable: LoveTexture
 }

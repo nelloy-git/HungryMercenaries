@@ -1,10 +1,15 @@
 import type { Shader as LoveShader, Drawable as LoveDrawable, BlendMode, Shader } from 'love.graphics'
 import { Vec2 } from '../../Math'
 import { Color } from '../../Utils'
+import { Transform } from '../Transform'
 
 import { Widget } from '../Widget'
 
 const graphics = love.graphics
+const draw = graphics.draw
+const setColor = graphics.setColor
+const setBlendMode = graphics.setBlendMode
+const setShader = graphics.setShader
 
 export abstract class StdWidget extends Widget {
 
@@ -23,11 +28,11 @@ export abstract class StdWidget extends Widget {
     
     draw(){
         if (this.visible){
-            graphics.setColor(this.color.unpack())
-            graphics.setBlendMode(this.blend)
-            graphics.setShader(<LoveShader>this.shader)
-            graphics.draw(
-                this._drawable,
+            setColor(this.color.unpack())
+            setBlendMode(this.blend)
+            setShader(<LoveShader>this.shader)
+            draw(
+                this.drawable,
                 this.abs_pos.x, this.abs_pos.y,
                 this.angle,
                 this.draw_size.x / this.pixel_size.x, this.draw_size.y / this.pixel_size.y,
@@ -48,5 +53,5 @@ export abstract class StdWidget extends Widget {
 
     readonly abstract pixel_size: Vec2
     
-    protected abstract _drawable: LoveDrawable
+    abstract drawable: LoveDrawable
 }

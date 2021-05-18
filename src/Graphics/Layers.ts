@@ -23,8 +23,6 @@ export class Layers {
     }
 
     static draw(this: void, ){
-        let win = Window.size
-
         for (const [level, layer] of Layers.__list){
             for (let i = 0; i < layer.length; i++){
                 layer[i].draw()

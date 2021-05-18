@@ -31,20 +31,26 @@ export abstract class Widget extends Object {
 
     get level(){return this.__level}
     set level(level: number){
-        Layers.remove(this)
         this.__level = level
-        Layers.add(this, level)
+        if (!this.__parent){
+            Layers.remove(this)
+            Layers.add(this, level)
+        }
     }
 
     get parent(){return this.__parent}
     set parent(p: Widget | undefined){
         if (this.__parent){
             this.__parent.__children.splice(this.__parent.__children.indexOf(this))
+        } else {
+            Layers.remove(this)
         }
 
         this.__parent = p
         if (p){
             p.__children.push(this)
+        } else {
+            Layers.add(this, this.__level)
         }
     }
     get children(){return this.__children as ReadonlyArray<Widget>}

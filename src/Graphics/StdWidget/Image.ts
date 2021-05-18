@@ -11,12 +11,12 @@ export class Image extends Texture {
         super()
 
         this.__data = img_data
-        this._drawable = newLoveImage(<any>img_data.data)
+        this.drawable = newLoveImage(<any>img_data.data)
     }
 
     destroy(){
-        if (this._drawable){
-            this._drawable.release()
+        if (this.drawable){
+            this.drawable.release()
         }
         
         super.destroy()
@@ -25,12 +25,12 @@ export class Image extends Texture {
     get data(){return this.__data}
     set data(data: ImageData | CompressedImageData){
         this.__data = data
-        this._drawable.release()
+        this.drawable.release()
         
-        this._drawable = newLoveImage(<any>data.data)
+        this.drawable = newLoveImage(<any>data.data)
     }
 
-    protected _drawable: LoveImage
+    drawable: LoveImage
 
     private __data: ImageData | CompressedImageData
 }

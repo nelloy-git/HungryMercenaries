@@ -14,7 +14,7 @@ export class Window {
     }
 
     static get size(){
-        let [w, h] = LoveWindow.getDesktopDimensions()
+        let [w, h] = LoveWindow.getMode()
         return new Vec2(w, h)
     }
 
