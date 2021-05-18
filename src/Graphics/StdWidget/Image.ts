@@ -14,12 +14,12 @@ export class Image extends Texture {
         this.drawable = newLoveImage(<any>img_data.data)
     }
 
-    destroy(){
+    release(){
         if (this.drawable){
             this.drawable.release()
         }
         
-        super.destroy()
+        super.release()
     }
 
     get data(){return this.__data}

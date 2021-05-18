@@ -17,9 +17,9 @@ export class Text extends StdWidget {
         this.__align = 'left'
     }
     
-    destroy(){
+    release(){
         this.drawable.release()
-        super.destroy()
+        super.release()
     }
 
     /**

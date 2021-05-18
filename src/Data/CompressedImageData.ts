@@ -12,7 +12,7 @@ export class CompressedImageData extends Data {
         this.data = newLoveCompressedImageData(file.data)
     }
 
-    destroy(){
+    release(){
         this.data.release()
     }
 

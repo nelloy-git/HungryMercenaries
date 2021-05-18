@@ -18,7 +18,7 @@ export class Thread<Args extends ThreadData[] = []> extends Object {
         this._thread = newLoveThread(<string>data)
     }
 
-    destroy(){
+    release(){
         this._thread.release()
     }
 

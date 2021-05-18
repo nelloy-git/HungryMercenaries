@@ -8,7 +8,7 @@ export abstract class Object {
         return this.constructor.name + '<' + this.id + '>'
     }
 
-    abstract destroy(): void
+    abstract release(): void
 
     readonly id: number
 

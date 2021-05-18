@@ -10,7 +10,7 @@ export class Channel<T extends ThreadData> extends Object {
         this.__channel = getLoveChannel(name)
     }
 
-    destroy(){
+    release(){
         this.__channel.release()
     }
 

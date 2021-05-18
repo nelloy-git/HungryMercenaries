@@ -18,7 +18,7 @@ export abstract class Widget extends Object {
         Layers.add(this)
     }
 
-    destroy(){
+    release(){
         Layers.remove(this)
     }
 

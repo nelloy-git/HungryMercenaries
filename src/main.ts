@@ -5,16 +5,24 @@ import { MainLoop } from './Base'
 import { Vec2 } from './Math'
 
 import { FileData, ImageData } from './Data'
-import { Image, Text, Window, World } from './Graphics'
-import { Block } from './Graphics/World/Block'
+import { Image, Text, Window } from './Graphics'
+// import { Block } from './Graphics/World/Block'
 import { Canvas } from './Graphics/StdWidget/Canvas'
+import { Compositor } from './Graphics/Compositor'
+import { graphics } from 'love'
 
 let fps: Text
 let test: Image[] = []
 // let world = new World(new Vec2(640, 480), 400)
 
+let comp = new Compositor(500, 500)
 let img_data = new ImageData(new FileData('test.jpg'))
 
+let img = love.graphics.newImage(img_data.data)
+
+// comp.canvas.renderTo(() => {
+//     graphics.draw(img, 0, 0, 0, 1, 1, 0, 0, 0, 0)
+// })
 
 
 MainLoop.load.add(() => {
@@ -23,70 +31,25 @@ MainLoop.load.add(() => {
     fps.draw_size = new Vec2(100, 100)
     fps.level = 10000
 
-    let block = new Block(new Vec2(100, 100))
-    block.draw_size = new Vec2(100, 100)
-    block.pos = Window.size.mult(0.5).sub(block.draw_size.mult(0.5))
-    print(Window.size, block.pos)
+    // print(comp.canvas.getWidth(), 'x', comp.canvas.getHeight())
 
-    let left = new Image(img_data)
-    left.draw_size = new Vec2(50, 50)
-    left.parent = block
+    comp.transform = love.math.newTransform()
+    comp.transform.translate(200, 0)
+    comp.transform.scale(1, 0.5)
+    comp.transform.rotate(math.pi / 4)
 
-    let right = new Image(img_data)
-    right.draw_size = new Vec2(50, 50)
-    right.parent = block
-
-    let top = new Image(img_data)
-    top.draw_size = new Vec2(50, 50)
-    top.parent = block
-
-    block.drawFrontLeft = () => {    
-        let size = block.draw_size
-        
-        left.angle = 0
-        left.pos = new Vec2(0, 0.25 * size.y)
-        left.draw_size = new Vec2(0.5 * size.x, 0.5 * size.y)
-        left.shear = new Vec2(0, 0.5)
-        left.draw()
-    }
-
-    block.drawFrontRight = () => {
-        let size = block.draw_size
-
-        right.angle = 0
-        right.pos = new Vec2(0.5 * size.x, 0.5 * size.y)
-        right.draw_size = new Vec2(0.5 * size.x, 0.5 * size.y)
-        right.shear = new Vec2(0, -0.5)
-        right.draw()
-    }
-
-    block.drawTop = () => {
-        let size = block.draw_size
-
-        top.angle = math.pi / 4
-        top.pos = new Vec2(0.5 * size.x, 0)
-        top.draw_size = new Vec2(size.x, 0.25 * size.y)
-        top.origin = top.draw_size.mult(0.5)
-        top.draw()
-    }
-
-    // world.draw_size = new Vec2(640, 480)
-    // world.pos = Window.size.mult(0.5)
-    // for (const block of world.sub){
-    //     let img = new Image(img_data)
-    //     img.draw_size = new Vec2(50, 50);
-    //     img.parent = block;
-    //     (<Block>block).drawFrontLeft = () => {
-    //         img.shear = new Vec2(0, -0.5)
-    //         img.draw()
-    //     }
-    // }
+    comp.drawDrawable(img)
 })
 
 MainLoop.update.add((dt) => {
     fps.text = string.format('%.1f', 1 / dt)
     // world.update()
     // print('upd')
+})
+
+MainLoop.draw.add(() => {
+    graphics.draw(comp.canvas)
+    // graphics.draw(img)
 })
 
 MainLoop.thread_error.add((th, err) => {

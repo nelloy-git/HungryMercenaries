@@ -34,7 +34,7 @@ export class FileData extends Data {
         }
     }
 
-    destroy(){
+    release(){
         this.data.release()
     }
 

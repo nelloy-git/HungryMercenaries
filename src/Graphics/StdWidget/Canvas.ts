@@ -21,12 +21,12 @@ export class Canvas extends Texture {
         this.drawable = newLoveCanvas(pixel_size.x, pixel_size.y, settings)
     }
 
-    destroy(){
+    release(){
         if (this.drawable){
             this.drawable.release()
         }
         
-        super.destroy()
+        super.release()
     }
 
     render(widget: Widget): void

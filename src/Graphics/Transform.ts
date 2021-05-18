@@ -12,7 +12,7 @@ export class Transform extends Object {
         this.transform = newLoveTransform()
     }
 
-    destroy(){
+    release(){
         this.transform.release()
     }
 

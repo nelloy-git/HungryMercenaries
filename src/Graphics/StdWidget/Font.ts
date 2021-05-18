@@ -17,7 +17,7 @@ export class Font extends Object {
             this.font.getFilter()
     }
 
-    destroy(){
+    release(){
         this.font.release()
     }
 

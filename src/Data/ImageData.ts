@@ -12,7 +12,7 @@ export class ImageData extends Data {
         this.data = newLoveImageData(file.data)
     }
 
-    destroy(){
+    release(){
         this.data.release()
     }
 

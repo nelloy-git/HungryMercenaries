@@ -1,24 +1,40 @@
 import { Vec2 } from '../../Math';
-import { Widget } from '../Widget';
+import { Object } from '../../Utils';
+import { Compositor } from '../Compositor';
+// import { Widget } from '../Widget';
 
-const DEFAULT_SIZE = new Vec2(100, 100)
+const HEIGHT = 50
+const WIDTH = 50
 
-export class Block extends Widget {
+type Side = 'BOT' | 'REAR_LEFT' | 'READ_RIGHT' | 'FRONT_LEFT' | 'FRONT_RIGHT' | 'TOP'
 
-    constructor(pixel_size: Vec2 = DEFAULT_SIZE){
+function newCompositor(side: Side){
+    let comp = new Compositor(WIDTH, HEIGHT)
+    comp.transform = love.math.newTransform()
+
+    if (side == 'BOT' || side == 'TOP'){
+        comp.transform.translate(WIDTH / 2, 0)
+        comp.transform.scale()
+        comp.transform.rotate(math.pi / 2)
+        comp.transform.scale(1, 0.5)
+    } else if (side == 'FRONT_LEFT' || side == 'REAR_LEFT'){
+        comp.transform.shear(0, -0.5)
+    } else {
+        comp.transform.shear(0, 0.5)
+    }
+    
+    return comp
+}
+
+export class Block extends Compositor {
+
+    constructor(){
         super()
 
         this.draw_size = pixel_size.copy()
     }
 
     draw(){
-        if (this.drawBottom){this.drawBottom()}
-        if (this.drawBackLeft){this.drawBackLeft()}
-        if (this.drawBackRight){this.drawBackRight()}
-        if (this.drawInside){this.drawInside()}
-        if (this.drawFrontLeft){this.drawFrontLeft()}
-        if (this.drawFrontRight){this.drawFrontRight()}
-        if (this.drawTop){this.drawTop()}
     }
 
     drawBottom: (() => void) | undefined
@@ -30,4 +46,13 @@ export class Block extends Widget {
     drawTop: (() => void) | undefined
 
     draw_size: Vec2
+
+    private static __compositors: Record<Side, Compositor> = {
+        BOT: newCompositor('BOT'),
+        REAR_LEFT: newCompositor('REAR_LEFT'),
+        READ_RIGHT: newCompositor('READ_RIGHT'),
+        FRONT_LEFT: newCompositor('FRONT_LEFT'),
+        FRONT_RIGHT: newCompositor('FRONT_RIGHT'),
+        TOP: newCompositor('TOP'),
+    }
 }
