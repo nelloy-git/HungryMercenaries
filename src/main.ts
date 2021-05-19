@@ -1,4 +1,4 @@
-import { init } from './Utils/index'
+import { Color, init } from './Utils/index'
 init()
 
 import { MainLoop } from './Base'
@@ -7,6 +7,7 @@ import { Vec2 } from './Math'
 import { FileData, ImageData } from './Data'
 import { Image, Text, Window } from './Graphics'
 import { Block } from './Graphics/World/Block'
+import { graphics } from 'love'
 
 let fps: Text
 
@@ -21,9 +22,14 @@ MainLoop.load.add(() => {
     fps.draw_size = new Vec2(100, 100)
     fps.level = 10000
 
+    block.setSide('BOT', img)
+    block.setSide('LEFT_REAR', img)
+    block.setSide('RIGHT_REAR', img)
     block.setSide('TOP', img)
-    block.setSide('LEFT_FRONT', img)
-    block.setSide('RIGHT_FRONT', img)
+    block.drawInside = (w, h) => {
+        love.graphics.setColor(1, 0, 0, 1)
+        love.graphics.circle('fill', w / 2, h / 2, w / 4, 32)
+    }
     block.update()
 })
 

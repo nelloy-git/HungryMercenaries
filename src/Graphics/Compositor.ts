@@ -153,6 +153,9 @@ export class Compositor extends Object {
         }
     }
 
+    get width(){return this.canvas.getWidth()}
+    get height(){return this.canvas.getHeight()}
+
     background_color: Color
     blend: BlendMode
     color: Color
