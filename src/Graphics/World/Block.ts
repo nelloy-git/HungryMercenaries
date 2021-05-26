@@ -1,9 +1,10 @@
+import { graphics } from 'love';
 import type { Mesh, Texture, VertexInformation } from 'love.graphics';
+import { Vec2, Vec3 } from '../../Math';
+import { EventActions } from '../../Utils';
 
 import { Compositor } from '../Compositor';
-
-const HEIGHT = 100
-const WIDTH = 100
+import { Drawable3d } from '../Utils/Drawable3d';
 
 type Side = 'BOT' | 'LEFT_REAR' | 'RIGHT_REAR' | 'LEFT_FRONT' | 'RIGHT_FRONT' | 'TOP'
 
@@ -21,40 +22,38 @@ const FRONT: Record<Front, 0> = {
     TOP: 0
 }
 
-
-export class Block extends Compositor {
+export class Block implements Drawable3d {
 
     constructor(width: number = 128, height: number = 128){
-        super(width, height)
+        this.actions = new EventActions(this.toString())
+        this.pos = new Vec3(0, 0, 0)
 
+        this.__compositor = new Compositor(width, height)
         this.__vertices = newVertices(width, height)
         this.__meshes = newMeshes(this.__vertices)
         this.__textures = newTextures()
     }
 
+    draw(pos: Vec2, scale: number){
+        print(pos.x, pos.y, scale, scale)
+        love.graphics.draw(this.__compositor.canvas, pos.x, pos.y, 0, scale, scale)
+    }
+
     update(){
-        this.clear()
+        this.__compositor.clear()
 
-        for (const side in REAR){
-            if (this.__textures[<Side>side]){
-                this.drawDrawable(this.__meshes[<Side>side])
-            }
-        }
-
-        this.draw(() => {
-            if (this.drawInside){
-                this.drawInside(this.width, this.height)
-            }
-        })
+        // for (const side in REAR){
+        //     if (this.__textures[<Side>side]){
+        //         this.drawDrawable(this.__meshes[<Side>side])
+        //     }
+        // }
 
         for (const side in FRONT){
             if (this.__textures[<Side>side]){
-                this.drawDrawable(this.__meshes[<Side>side])
+                this.__compositor.drawDrawable(this.__meshes[<Side>side])
             }
         }
     }
-
-    drawInside: ((width: number, height: number) => void) | undefined
 
     getSide(side: Side){
         return this.__textures[side]
@@ -65,36 +64,44 @@ export class Block extends Compositor {
         this.__meshes[side].setTexture(<Texture>texture)
     }
 
+    actions: EventActions<Block.Event, [Block]>
+    pos: Vec3
+
+    private __compositor: Compositor
     private __vertices: Record<Side, VertexInformation[]>
     private __meshes: Record<Side, Mesh>
     private __textures: Record<Side, Texture | undefined>
 }
 
+export namespace Block {
+    export type Event = 'UPDATE'
+}
+
 
 function newVertices(width: number, height: number){
     let vertices: Record<Side, VertexInformation[]> = {
-        BOT: [[0, 0.75 * height, 0, 0],
+        BOT: [[0, height / 4, 0, 0],
               [width / 2, height, 0, 1],
-              [width, 0.75 * height, 1, 1],
-              [width / 2, 0.5 * height, 1, 0]],
+              [width, height / 4, 1, 1],
+              [width / 2, height / 2, 1, 0]],
         LEFT_REAR: [[0, 0.25 * height, 0, 0],
-                    [0, 0.75 * height, 0, 1],
-                    [width / 2, 0.5 * height, 1, 1],
+                    [0, height / 4, 0, 1],
+                    [width / 2, height / 2, 1, 1],
                     [width / 2, 0, 1, 0]],
         RIGHT_REAR: [[width / 2, 0, 0, 0],
-                     [width / 2, 0.5 * height, 0, 1],
-                     [width, 0.75 * height, 1, 1],
+                     [width / 2, height / 2, 0, 1],
+                     [width, height / 4, 1, 1],
                      [width, 0.25 * height, 1, 0]],
         LEFT_FRONT: [[0, 0.25 * height, 0, 0],
-                     [0, 0.75 * height, 0, 1],
+                     [0, height / 4, 0, 1],
                      [width / 2, height, 1, 1],
-                     [width / 2, 0.5 * height, 1, 0]],
-        RIGHT_FRONT: [[width / 2, 0.5 * height, 0, 0],
+                     [width / 2, height / 2, 1, 0]],
+        RIGHT_FRONT: [[width / 2, height / 2, 0, 0],
                       [width / 2, height, 0, 1],
-                      [width, 0.75 * height, 1, 1],
+                      [width, height / 4, 1, 1],
                       [width, 0.25 * height, 1, 0]],
         TOP: [[0, 0.25 * height, 0, 0],
-              [width / 2, 0.5 * height, 0, 1],
+              [width / 2, height / 2, 0, 1],
               [width, 0.25 * height, 1, 1],
               [width / 2, 0, 1, 0]],
     }

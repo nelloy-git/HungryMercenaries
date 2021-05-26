@@ -3,4 +3,4 @@ export * from './Window'
 
 export * from './StdWidget'
 
-// export { World } from './World/World'
+export * from './World/World'
