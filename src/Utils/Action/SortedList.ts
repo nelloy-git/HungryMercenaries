@@ -11,7 +11,6 @@ export class Iterator<T> {
 export class SortedList<T> {
     constructor(weight: (this: void, obj: T) => number){
         this.__list = []
-        this.__counter = 0
         this.__weight = weight
         this.__comp = (obj1: T, obj2: T) => {
             return weight(obj1) - weight(obj2)
@@ -21,8 +20,6 @@ export class SortedList<T> {
     add(obj: T){
         this.__list.push(obj)
         this.__list.sort(this.__comp)
-
-        this.__list.splice
     }   
 
     remove(obj: T){
@@ -35,24 +32,15 @@ export class SortedList<T> {
     }
 
     [Symbol.iterator](){
+        let counter = -1
         return {
-            next: function(this: SortedList<T>) {
+            next: () => {
+                counter++
                 return {
-                    done: (() => {
-                        this.__counter++
-                        let done = this.__counter >= this.__list.length
-                        if (done){
-                            this.__counter = 0
-                            return true
-                        }
-                        return false
-                    })(),
-                    value: (() => {
-                        print(this.__counter, this.__list.length);
-                        return this.__list[this.__counter]
-                    })()
+                    done: counter === this.__list.length,
+                    value: this.__list[counter]
                 }
-            }.bind(this)
+            }
         }
     }
 
@@ -81,7 +69,6 @@ export class SortedList<T> {
     }
     
     private __list: T[]
-    private __counter: number
     private __weight: (this: void, obj: T) => number
     private __comp: (obj1: T, obj2: T) => number
 }

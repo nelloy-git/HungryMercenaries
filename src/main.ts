@@ -2,7 +2,7 @@ import { Color, init } from './Utils/index'
 init()
 
 import { MainLoop } from './Base'
-import { Vec2 } from './Math'
+import { Vec2, Vec3 } from './Math'
 
 import { FileData, ImageData } from './Data'
 import { Image, Text, Window, World } from './Graphics'
@@ -14,7 +14,6 @@ let fps: Text
 let img_data = new ImageData(new FileData('test.jpg'))
 let img = love.graphics.newImage(img_data.data)
 
-let block = new Block()
 let world = new World(new Vec2(320, 240))
 
 MainLoop.load.add(() => {
@@ -23,12 +22,18 @@ MainLoop.load.add(() => {
     fps.draw_size = new Vec2(100, 100)
     fps.level = 10000
 
-    block.setSide('LEFT_FRONT', img)
-    block.setSide('RIGHT_FRONT', img)
-    block.setSide('TOP', img)
-    block.update()
+    for (let i = 0; i < 2; i++){
+        let block = new Block()
+        world.objects.add(block)
 
-    world.objects.add(block)
+        block.pos = new Vec3(i, 0, 0)
+        block.setSide('LEFT', img)
+        block.setSide('RIGHT', img)
+        block.setSide('TOP', img)
+        block.update()
+    }
+
+
 })
 
 MainLoop.update.add((dt) => {
@@ -39,7 +44,7 @@ MainLoop.update.add((dt) => {
 
 MainLoop.draw.add(() => {
     let [w, h] = Window.size.unpack()
-    world.draw(new Vec2(0, 0))
+    world.draw(new Vec2(w / 2, h / 2))
     // love.graphics.draw(block.canvas, w / 2, h / 2, 0, 1, 1)
     // graphics.draw(img)
 })

@@ -1,4 +1,3 @@
-import { graphics } from 'love';
 import type { Mesh, Texture, VertexInformation } from 'love.graphics';
 import { Vec2, Vec3 } from '../../Math';
 import { EventActions } from '../../Utils';
@@ -6,21 +5,7 @@ import { EventActions } from '../../Utils';
 import { Compositor } from '../Compositor';
 import { Drawable3d } from '../Utils/Drawable3d';
 
-type Side = 'BOT' | 'LEFT_REAR' | 'RIGHT_REAR' | 'LEFT_FRONT' | 'RIGHT_FRONT' | 'TOP'
-
-type Rear = Extract<Side, 'BOT' | 'LEFT_REAR' | 'RIGHT_REAR'>
-const REAR: Record<Rear, 0> = {
-    BOT: 0,
-    LEFT_REAR: 0,
-    RIGHT_REAR: 0
-}
-
-type Front = Extract<Side, 'LEFT_FRONT' | 'RIGHT_FRONT' | 'TOP'>
-const FRONT: Record<Front, 0> = {
-    LEFT_FRONT: 0,
-    RIGHT_FRONT: 0,
-    TOP: 0
-}
+type Side = 'LEFT' | 'RIGHT' | 'TOP'
 
 export class Block implements Drawable3d {
 
@@ -35,20 +20,13 @@ export class Block implements Drawable3d {
     }
 
     draw(pos: Vec2, scale: number){
-        print(pos.x, pos.y, scale, scale)
+        // print(pos.x, pos.y, scale, scale)
         love.graphics.draw(this.__compositor.canvas, pos.x, pos.y, 0, scale, scale)
     }
 
     update(){
         this.__compositor.clear()
-
-        // for (const side in REAR){
-        //     if (this.__textures[<Side>side]){
-        //         this.drawDrawable(this.__meshes[<Side>side])
-        //     }
-        // }
-
-        for (const side in FRONT){
+        for (const side in this.__meshes){
             if (this.__textures[<Side>side]){
                 this.__compositor.drawDrawable(this.__meshes[<Side>side])
             }
@@ -80,26 +58,14 @@ export namespace Block {
 
 function newVertices(width: number, height: number){
     let vertices: Record<Side, VertexInformation[]> = {
-        BOT: [[0, height / 4, 0, 0],
-              [width / 2, height, 0, 1],
-              [width, height / 4, 1, 1],
-              [width / 2, height / 2, 1, 0]],
-        LEFT_REAR: [[0, 0.25 * height, 0, 0],
-                    [0, height / 4, 0, 1],
-                    [width / 2, height / 2, 1, 1],
-                    [width / 2, 0, 1, 0]],
-        RIGHT_REAR: [[width / 2, 0, 0, 0],
-                     [width / 2, height / 2, 0, 1],
-                     [width, height / 4, 1, 1],
-                     [width, 0.25 * height, 1, 0]],
-        LEFT_FRONT: [[0, 0.25 * height, 0, 0],
-                     [0, height / 4, 0, 1],
-                     [width / 2, height, 1, 1],
-                     [width / 2, height / 2, 1, 0]],
-        RIGHT_FRONT: [[width / 2, height / 2, 0, 0],
-                      [width / 2, height, 0, 1],
-                      [width, height / 4, 1, 1],
-                      [width, 0.25 * height, 1, 0]],
+        LEFT: [[0, height / 4, 0, 0],
+               [0, 3 * height / 4, 0, 1],
+               [width / 2, height, 1, 1],
+               [width / 2, height / 2, 1, 0]],
+        RIGHT: [[width / 2, height / 2, 0, 0],
+                [width / 2, height, 0, 1],
+                [width, 3 * height / 4, 1, 1],
+                [width, height / 4, 1, 0]],
         TOP: [[0, 0.25 * height, 0, 0],
               [width / 2, height / 2, 0, 1],
               [width, 0.25 * height, 1, 1],
@@ -110,11 +76,8 @@ function newVertices(width: number, height: number){
 
 function newMeshes(vertices: Record<Side, VertexInformation[]>){
     let meshes: Record<Side, Mesh> = {
-        BOT: love.graphics.newMesh(vertices.BOT, 'fan'),
-        LEFT_REAR: love.graphics.newMesh(vertices.LEFT_REAR, 'fan'),
-        RIGHT_REAR: love.graphics.newMesh(vertices.RIGHT_REAR, 'fan'),
-        LEFT_FRONT: love.graphics.newMesh(vertices.LEFT_FRONT, 'fan'),
-        RIGHT_FRONT: love.graphics.newMesh(vertices.RIGHT_FRONT, 'fan'),
+        LEFT: love.graphics.newMesh(vertices.LEFT, 'fan'),
+        RIGHT: love.graphics.newMesh(vertices.RIGHT, 'fan'),
         TOP: love.graphics.newMesh(vertices.TOP, 'fan'),
     }
     return meshes
@@ -122,11 +85,8 @@ function newMeshes(vertices: Record<Side, VertexInformation[]>){
 
 function newTextures(){
     let textures: Record<Side, Texture | undefined> = {
-        BOT: undefined,
-        LEFT_REAR: undefined,
-        RIGHT_REAR: undefined,
-        LEFT_FRONT: undefined,
-        RIGHT_FRONT: undefined,
+        LEFT: undefined,
+        RIGHT: undefined,
         TOP: undefined,
     }
     return textures

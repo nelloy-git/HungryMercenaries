@@ -7,14 +7,13 @@ const cos60 = math.cos(math.pi / 3)
 // const sin60 = math.sin(math.pi / 3)
 
 export class IsometricGrid {
-    constructor(){
-        this.step = 1
-    }
 
-    get(v: Vec3){
-        let vi = v.copy().mult(K * this.step)
+    static get(v: Vec3){
+        let vi = v.copy().mult(K * IsometricGrid.step)
         return new Vec2((vi.x - vi.y) * sin30, (vi.x + vi.y) * cos60 + vi.z)
     }
 
-    step: number
+    static step = 100
+
+    private constructor(){}
 }
