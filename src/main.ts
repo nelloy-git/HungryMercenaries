@@ -6,15 +6,22 @@ import { Vec2, Vec3 } from './Math'
 
 import { FileData, ImageData } from './Data'
 import { Image, Text, Window } from './Graphics'
-import { Block } from './Graphics/World/Block'
-import { Rectangle } from './Graphics'
+import { Rectangle, Block } from './Graphics'
+import { IsometricGrid } from './Graphics/3d/IsometricGrid'
 
 let fps: Text
 
-let img_data = new ImageData(new FileData('test.jpg'))
-let img = love.graphics.newImage(img_data.data)
+let img_test = new ImageData(new FileData('test.jpg'))
+let img_top = new ImageData(new FileData('Resources/Textures/Land/TexturesCom_Grass0005_1_seamless_S.jpg'))
+let img_side = new ImageData(new FileData('Resources/Textures/Land/TexturesCom_Grass0118_1_seamless_S.jpg'))
 
-let triag: Rectangle[] = []
+let test = love.graphics.newImage(img_test.data)
+let top = love.graphics.newImage(img_top.data)
+let side = love.graphics.newImage(img_side.data)
+
+let grid: IsometricGrid = new IsometricGrid(16)
+let blocks: Block[] = []
+let rects: Rectangle[] = []
 
 MainLoop.load.add(() => {
     Window.vsync = Window.VSync.DISABLED
@@ -22,18 +29,25 @@ MainLoop.load.add(() => {
     fps.draw_size = new Vec2(100, 100)
     fps.level = 10000
 
-    let r = new Rectangle(new Vec3(0, 0, 0), new Vec3(0, 1, 0), new Vec3(1, 1, 0), new Vec3(1, 0, 0))
-    triag.push(r)
-    r.texture = img
-    // r.pointsUV = [new Vec2(0, 0), new Vec2(0, 1), new Vec2(1, 1)]
-    r.update(new Vec3 (0, 0, 0))
+    for (let i = 0; i < 1; i++){
+        let block = new Block(128)
+        blocks.push(block)
 
-    // t = new Rectangle(new Vec3(0, 0, 0), new Vec3(1, 1, 0), new Vec3(0, 1, 0))
-    // triag.push(t)
-    // t.texture = img
-    // t.pointsUV = [new Vec2(0, 0), new Vec2(0, 1), new Vec2(1, 1)]
-    // t.update(new Vec3 (0, 0, 0))
+        block.sides.LEFT.texture = side
+        block.sides.RIGHT.texture = side
+        block.sides.TOP.texture = top
+        block.update()
 
+        // let rect = new Rectangle(
+        //     new Vec3(0, 1, 1),
+        //     new Vec3(0, 1, 0),
+        //     new Vec3(1, 1, 0),
+        //     new Vec3(1, 1, 1)
+        // )
+        // rects.push(rect)
+        // rect.texture = img
+        // rect.update()
+    }
 })
 
 MainLoop.update.add((dt) => {
@@ -45,9 +59,16 @@ MainLoop.update.add((dt) => {
 MainLoop.draw.add(() => {
     let [w, h] = Window.size.unpack()
     
-    for (let i = 0; i < triag.length; i++){
-        triag[i].draw(new Vec2(w / 2, h / 2))
+    grid.step += 0.01
+    grid.origin = Window.size.mult(0.5)
+
+    for (let i = 0; i < 5; i++){
+        blocks[0].draw(grid, new Vec3(i, 0, 0))
+
+        // rects[0].draw(grid, new Vec3(i, -1, 1))
     }
+
+
     
 })
 

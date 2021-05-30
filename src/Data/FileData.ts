@@ -16,7 +16,7 @@ export class FileData extends Data {
             this.data = path_or_content
         } else if (name){
             this.path = ''
-            this.data = newLoveFileData(path_or_content, <string>name)
+            this.data = newLoveFileData(path_or_content, name)
         } else {
             let path = path_or_content
             let data = FileData.__loaded.get(path)

@@ -16,10 +16,10 @@ export class Triangle {
         }
     }
 
-    update(offset: Vec3){
+    update(scale: number){
         this.__vertices = []
         for (let i = 0; i < 3; i++){
-            let p = IsometricGrid.get(this.points3d[i].add(offset))
+            let p = IsometricGrid.get(this.points3d[i]).mult(scale)
             let uv = this.pointsUV[i]
 
             let vertex: VertexInformation = [

@@ -1,9 +1,13 @@
 import { Mesh, Texture, VertexInformation } from "love.graphics";
-import { Vec2, Vec3 } from "../../Math";
-import { IsometricGrid } from './IsometricGrid'
+import { Vec2, Vec3 } from "../../../Math";
 
-export class Rectangle {
+import { Prototype } from "../Prototype";
+import { IsometricGrid } from '../IsometricGrid'
+
+export class Rectangle extends Prototype {
     constructor(p1: Vec3, p2: Vec3, p3: Vec3, p4: Vec3){
+        super()
+        
         this.points3d = [p1, p2, p3, p4]
         this.pointsUV = [
             new Vec2(0, 0),
@@ -12,17 +16,20 @@ export class Rectangle {
             new Vec2(1, 0)
         ]
 
-        this.update(new Vec3(0, 0, 0))
+        this.update()
     }
 
-    draw(zero: Vec2 = new Vec2(0, 0)){   
-        love.graphics.draw(this.__mesh, zero.x, zero.y)
+    draw(grid: IsometricGrid, pos: Vec3 = new Vec3(0, 0, 0)){
+        let pos2d = grid.to2d(pos)
+        love.graphics.draw(this.__mesh,
+                           pos2d.x, pos2d.y, 0,
+                           grid.step, grid.step)
     }
 
-    update(offset: Vec3 = new Vec3(0, 0, 0)){
+    update(){
         this.__vertices = []
         for (let i = 0; i < 4; i++){
-            let p = IsometricGrid.get(this.points3d[i].add(offset))
+            let p = Rectangle.__Grid.to2d(this.points3d[i])
             let uv = this.pointsUV[i]
 
             let vertex: VertexInformation = [
@@ -39,6 +46,7 @@ export class Rectangle {
         this.__mesh.setTexture(<Texture>this.texture)
     }
 
+    
     points3d: [Vec3, Vec3, Vec3, Vec3]
 
     texture: Texture | undefined
@@ -46,4 +54,6 @@ export class Rectangle {
 
     private __vertices!: VertexInformation[]
     private __mesh!: Mesh
+
+    private static __Grid = new IsometricGrid(1)
 }
