@@ -3,7 +3,7 @@ import { Vec2 } from '../../Math'
 import { Color } from '../../Utils'
 import { Transform } from '../Transform'
 
-import { Widget } from '../Widget'
+import { Widget } from '../Widget/Base'
 
 const graphics = love.graphics
 const draw = graphics.draw
@@ -13,10 +13,9 @@ const setShader = graphics.setShader
 
 export abstract class StdWidget extends Widget {
 
-    constructor(){
-        super()
+    constructor(pos: Vec2, size: Vec2){
+        super(pos, size)
 
-        this.draw_size = new Vec2(0, 0)
         this.angle = 0
         this.visible = true
         this.color = new Color()
@@ -35,14 +34,13 @@ export abstract class StdWidget extends Widget {
                 this.drawable,
                 this.abs_pos.x, this.abs_pos.y,
                 this.angle,
-                this.draw_size.x / this.pixel_size.x, this.draw_size.y / this.pixel_size.y,
+                this.size.x / this.pixel_size.x, this.size.y / this.pixel_size.y,
                 this.origin.x, this.origin.y,
                 this.shear.x, this.shear.y
             )
         }
     }
 
-    draw_size: Vec2
     angle: number
     visible: boolean
     color: Color

@@ -17,9 +17,8 @@ export class SortedList<T> {
         }
     }
 
-    add(obj: T){
+    push(obj: T){
         this.__list.push(obj)
-        this.__list.sort(this.__comp)
     }   
 
     remove(obj: T){
@@ -33,6 +32,7 @@ export class SortedList<T> {
 
     [Symbol.iterator](){
         let counter = -1
+        this.__list.sort(this.__comp)
         return {
             next: () => {
                 counter++
@@ -45,12 +45,14 @@ export class SortedList<T> {
     }
 
     ascending(func: (this: void, obj: T) => void){
+        this.__list.sort(this.__comp)
         for (let i = 0; i < this.__list.length; i++){
             func(this.__list[i])
         }
     }
 
     descending(func: (this: void, obj: T) => void){
+        this.__list.sort(this.__comp).reverse()
         for (let i = this.__list.length; i >= 0 ; i--){
             func(this.__list[i])
         }

@@ -1,15 +1,16 @@
 import type { BlendMode, Drawable, Shader } from 'love.graphics'
 
-import { Vec2 } from '../Math'
-import { Color, Object } from '../Utils'
+import { Vec2 } from '../../Math'
+import { Color, Object } from '../../Utils'
 
-import { Layers } from './Layers'
+import { Layers } from '../Layers'
 
 export abstract class Widget extends Object {
-    constructor(){
+    constructor(pos: Vec2, size: Vec2){
         super()
 
-        this.pos = new Vec2(0, 0)
+        this.pos = pos
+        this.size = size
 
         this.__level = 0
         this.__parent = undefined
@@ -56,7 +57,7 @@ export abstract class Widget extends Object {
     get children(){return this.__children as ReadonlyArray<Widget>}
 
     pos: Vec2
-    abstract draw_size: Vec2
+    size: Vec2
 
     private __level: number
     private __parent: Widget | undefined

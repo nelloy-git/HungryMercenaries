@@ -2,6 +2,7 @@ import type { AlignMode, Shader, Text as LoveText } from 'love.graphics'
 
 import { StdWidget } from './Std'
 import { Font } from './Font'
+import { Vec2 } from '../../Math'
 
 const graphics = love.graphics
 const newLoveText = love.graphics.newText
@@ -9,8 +10,8 @@ const DEFAULT = love.graphics.newFont()
 
 export class Text extends StdWidget {
 
-    constructor(){
-        super()
+    constructor(pos: Vec2, size: Vec2){
+        super(pos, size)
 
         this.drawable = newLoveText(DEFAULT)
         this.__text = ''
@@ -56,7 +57,7 @@ export class Text extends StdWidget {
     }
 
     get pixel_size(){
-        return this.draw_size.copy()
+        return this.size.copy()
     }
 
     drawable: LoveText

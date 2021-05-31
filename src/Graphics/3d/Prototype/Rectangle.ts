@@ -1,10 +1,10 @@
 import { Mesh, Texture, VertexInformation } from "love.graphics";
 import { Vec2, Vec3 } from "../../../Math";
 
-import { Prototype } from "../Prototype";
+import { ProtoBase } from "./Base";
 import { IsometricGrid } from '../IsometricGrid'
 
-export class Rectangle extends Prototype {
+export class Rectangle extends ProtoBase {
     constructor(p1: Vec3, p2: Vec3, p3: Vec3, p4: Vec3){
         super()
         
@@ -17,6 +17,10 @@ export class Rectangle extends Prototype {
         ]
 
         this.update()
+    }
+
+    release(){
+        this.__mesh.release()
     }
 
     draw(grid: IsometricGrid, pos: Vec3 = new Vec3(0, 0, 0)){

@@ -4,12 +4,12 @@ import { EventActions } from '../../../Utils';
 
 import { Compositor } from '../../Compositor';
 import { IsometricGrid } from '../IsometricGrid';
-import { Prototype } from '../Prototype';
+import { ProtoBase } from './Base';
 import { Rectangle } from './Rectangle';
 
 type Side = 'LEFT' | 'RIGHT' | 'TOP'
 
-export class Block extends Prototype {
+export class ProtoBlock extends ProtoBase {
 
     constructor(render_size: number){
         super()
@@ -35,6 +35,13 @@ export class Block extends Prototype {
                                new Vec3(1, 0, 1),
                                new Vec3(0, 0, 1))
         }
+    }
+
+    release(){
+        for (let side in this.sides){
+            this.sides[<Side>side].release()
+        }
+        this.__compositor.release()
     }
 
     draw(grid: IsometricGrid, pos: Vec3 = new Vec3(0, 0, 0)){
@@ -64,5 +71,4 @@ export class Block extends Prototype {
     render_grid: IsometricGrid
 
     private __compositor: Compositor
-    // private __side_origin: Record<Side, Vec2>
 }

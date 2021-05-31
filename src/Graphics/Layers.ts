@@ -1,7 +1,7 @@
 import type { Shader } from 'love.graphics'
 import { MainLoop } from '../Base'
 
-import type { Widget } from './Widget'
+import type { Widget } from './Widget/Base'
 import { Window } from './Window'
 
 const graphics = love.graphics
